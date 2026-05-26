@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hackathon BU Modern Apps — Kickoff</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --bg-alt: #1e293b;
+    --fg: #f1f5f9;
+    --fg-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-strong: #0ea5e9;
+    --border: #334155;
+    --hi: #fbbf24;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 5vh 8vw;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  h1, h2 {
+    margin: 0 0 0.4em 0;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+  h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: var(--accent); }
+
+  .subtitle {
+    color: var(--fg-muted);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    margin-bottom: 1em;
+  }
+
+  p, li {
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    line-height: 1.5;
+  }
+
+  ul { padding-left: 1.2em; }
+  li { margin-bottom: 0.4em; }
+
+  strong { color: var(--hi); font-weight: 600; }
+
+  table {
+    border-collapse: collapse;
+    margin-top: 0.8em;
+    width: 100%;
+    font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6em 0.9em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: var(--bg-alt);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  tr:hover td { background: rgba(56, 189, 248, 0.05); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+    margin-top: 1em;
+  }
+
+  .card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5em;
+  }
+
+  .card h3 {
+    margin: 0 0 0.4em 0;
+    color: var(--accent);
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 1.5vh;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2vw;
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .nav button {
+    pointer-events: all;
+    background: var(--bg-alt);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4em 0.9em;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+  }
+
+  .nav button:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+  }
+
+  .nav button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .counter {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 0;
+    transition: width 0.2s;
+    z-index: 11;
+  }
+
+  .accent-line {
+    width: 3em;
+    height: 4px;
+    background: var(--accent);
+    margin-bottom: 1em;
+    border-radius: 2px;
+  }
+
+  .footer-meta {
+    position: absolute;
+    bottom: 1.5em;
+    left: 8vw;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .title-slide {
+    justify-content: center;
+    text-align: left;
+  }
+
+  .title-slide h1 {
+    background: linear-gradient(120deg, var(--accent) 0%, var(--hi) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .big-list li {
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    margin-bottom: 0.7em;
+  }
+
+  .schedule {
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+  }
+
+  .punchline {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    color: var(--hi);
+    font-weight: 600;
+    margin-top: 1em;
+  }
+
+  code, .mono {
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    background: var(--bg-alt);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .deck-hint {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    color: var(--fg-muted);
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="deck-hint">← → / mezerník / klik</div>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Title -->
+  <section class="slide title-slide active">
+    <div class="accent-line"></div>
+    <h1>Hackathon<br/>BU Modern Apps</h1>
+    <p class="subtitle">AI agenti pro fungování naší BU</p>
+    <div class="footer-meta">
+      Datum: <em>&lt;doplň&gt;</em> &nbsp;·&nbsp; Místo: <em>&lt;doplň&gt;</em>
+    </div>
+  </section>
+
+  <!-- Slide 2: Why -->
+  <section class="slide">
+    <h2>Proč to děláme</h2>
+    <div class="accent-line"></div>
+    <ul class="big-list">
+      <li>AI nás přestává jen překládat — <strong>začíná dělat práci</strong></li>
+      <li>BU Modern Apps stojí a padá s tím, jak rychle umíme pre-sales, delivery, support, hiring</li>
+      <li>Pokud agenti utáhnou opakovanou práci → <strong>senioři dělají to, na co je platíme</strong></li>
+      <li>Dnes si postavíme dva agenty, kteří mají potenciál ušetřit BU <strong>desítky člověko-dní měsíčně</strong></li>
+    </ul>
+  </section>
+
+  <!-- Slide 3: What we build -->
+  <section class="slide">
+    <h2>Co dnes vznikne</h2>
+    <div class="accent-line"></div>
+    <p>Dva týmy, dva agenti, jeden den:</p>
+    <div class="two-col">
+      <div class="card">
+        <h3>Tým A</h3>
+        <p><strong>Delivery Health Agent</strong></p>
+        <p>Týdenní přehled rizik a blokerů per projekt.</p>
+        <p style="color: var(--fg-muted); font-size: 0.95em;">Vstupy: tickety, PRs, kalendář, zápisy z meetingů</p>
+      </div>
+      <div class="card">
+        <h3>Tým B</h3>
+        <p><strong>Estimation &amp; Proposal Agent</strong></p>
+        <p>Z poptávky vyrobí podklad pro nabídku.</p>
+        <p style="color: var(--fg-muted); font-size: 0.95em;">Vstupy: poptávka + historie BU</p>
+      </div>
+    </div>
+    <p class="punchline">Cíl dne: funkční MVP + 15 min demo. Vítěz → reálná cesta do produkce.</p>
+  </section>
+
+  <!-- Slide 4: Schedule -->
+  <section class="slide">
+    <h2>Program dne</h2>
+    <div class="accent-line"></div>
+    <table class="schedule">
+      <thead>
+        <tr><th>Čas</th><th>Co se děje</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>09:00 – 09:30</td><td>Kickoff (právě teď)</td></tr>
+        <tr><td>09:30 – 10:00</td><td>Rozdělení do týmů, seznámení s kit-em</td></tr>
+        <tr><td>10:00 – 12:00</td><td>Build #1</td></tr>
+        <tr><td>12:00 – 13:00</td><td>Oběd</td></tr>
+        <tr><td>13:00 – 15:30</td><td>Build #2</td></tr>
+        <tr><td>15:30 – 16:00</td><td>Příprava dema</td></tr>
+        <tr><td>16:00 – 17:00</td><td><strong>Demo</strong> + Q&amp;A</td></tr>
+        <tr><td>17:00 – 17:30</td><td>Vyhodnocení &amp; další kroky</td></tr>
+        <tr><td>17:30 →</td><td>Společná večeře</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Slide 5: Judging -->
+  <section class="slide">
+    <h2>Jak se to hodnotí</h2>
+    <div class="accent-line"></div>
+    <table>
+      <thead>
+        <tr><th>Kritérium</th><th>Váha</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Užitečnost pro BU</strong></td><td>40 %</td></tr>
+        <tr><td><strong>Demonstrabilita</strong> (funguje na datech)</td><td>30 %</td></tr>
+        <tr><td><strong>Reálnost nasazení do měsíce</strong></td><td>30 %</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 1.5em;">Hlasujete navzájem (členové druhého týmu) + BU Lead.</p>
+    <p class="punchline">Vítězný tým si bere ownership a dostane rozpočet na dotažení.</p>
+  </section>
+
+  <!-- Slide 6: What you get -->
+  <section class="slide">
+    <h2>Co máte k dispozici</h2>
+    <div class="accent-line"></div>
+    <p>Každý tým dostane:</p>
+    <ul class="big-list">
+      <li><strong>Starter repo</strong> s Claude Code configem (sub-agent, slash command, hook)</li>
+      <li><strong>Dummy data</strong> v <code>data/</code> — žádné přístupy do reálné Jiry, vše lokálně</li>
+      <li><strong>One-pager</strong> se zadáním a definicí úspěchu</li>
+      <li><strong>Claude Code coach</strong> k ruce, když se kdokoli zasekne</li>
+    </ul>
+    <p style="margin-top: 1.5em; color: var(--fg-muted);">
+      Stack: <code>Claude Code</code> lokálně, Markdown výstup, Git pro verzování během dne.
+    </p>
+  </section>
+
+  <!-- Slide 7: Live demo -->
+  <section class="slide">
+    <h2>Live demo Claude Code (10 min)</h2>
+    <div class="accent-line"></div>
+    <p>Ukázka, co Claude Code v praxi umí:</p>
+    <ol class="big-list">
+      <li>Otevřít projekt, číst <code>CLAUDE.md</code></li>
+      <li>Vyvolat sub-agenta (per-project analyzer)</li>
+      <li>Pustit slash command (<code>/health-check</code>)</li>
+      <li>Hook, který něco loguje</li>
+      <li>Iterativně laděné prompty</li>
+    </ol>
+    <p class="punchline">Stavění agenta není o programování modelu — je o návrhu kontextu a workflow.</p>
+  </section>
+
+  <!-- Slide 8: Tips -->
+  <section class="slide">
+    <h2>Tipy pro úspěch</h2>
+    <div class="accent-line"></div>
+    <ol class="big-list">
+      <li><strong>Domain expert je zlato.</strong> Když agent řekne "tohle je riziko", musí to někdo schválit jako reálné.</li>
+      <li><strong>Najděte killer příklad brzy.</strong> Demo wrangler od ranní hodiny, ne až ve 4 odpoledne.</li>
+      <li><strong>Scope down.</strong> 1 projekt hluboce &gt; 3 projekty na povrchu.</li>
+      <li><strong>Korelace &gt; výpisy.</strong> Když seznam ticketů zvládá Jira sama, hodnota je v korelaci.</li>
+      <li><strong>Iterujte krátké cykly.</strong> Každou hodinu: "kdybychom skončili teď, je to k něčemu?"</li>
+    </ol>
+  </section>
+
+  <!-- Slide 9: Rules -->
+  <section class="slide">
+    <h2>Pravidla soutěžení</h2>
+    <div class="accent-line"></div>
+    <ul class="big-list">
+      <li><strong>Žádný cheating s daty</strong> — používejte jen <code>data/</code> ve svém repu</li>
+      <li><strong>Žádné napojení na produkci</strong> — žádná reálná Jira, žádný produkční git</li>
+      <li><strong>Otázka koučovi je vždycky OK</strong> — chcete poradit, ne sami trpět</li>
+      <li><strong>Bez vyhraného / poraženého teamu</strong> — chceme dva dobré agenty</li>
+      <li><strong>Co dnes vznikne je BU vlastnictví</strong>, ne osobní hobby projekt</li>
+    </ul>
+  </section>
+
+  <!-- Slide 10: Go -->
+  <section class="slide">
+    <h2>A teď?</h2>
+    <div class="accent-line"></div>
+    <ol class="big-list">
+      <li>Rozdělení do týmů (10 min)</li>
+      <li>Otevřete starter repo, mrkněte na <code>README.md</code> a <code>CLAUDE.md</code></li>
+      <li>Pusťte si slash command, který dostanete — i když je to stub</li>
+      <li>Začněte stavět</li>
+    </ol>
+    <p class="punchline">Hodně štěstí. V 16:00 se uvidíme na demech.</p>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="prev" onclick="go(-1)">← Předchozí</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">10</span></span>
+  <button id="next" onclick="go(1)">Další →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  document.getElementById('total').textContent = total;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    document.getElementById('cur').textContent = current + 1;
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === total - 1;
+    document.getElementById('progress').style.width = `${((current + 1) / total) * 100}%`;
+  }
+
+  function go(delta) {
+    const next = current + delta;
+    if (next >= 0 && next < total) {
+      current = next;
+      render();
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (e.key === 'Home') { current = 0; render(); }
+    else if (e.key === 'End') { current = total - 1; render(); }
+    else if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.nav') || e.target.closest('button')) return;
+    go(1);
+  });
+
+  render();
+</script>
+
+</body>
+</html>

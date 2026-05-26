@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Code — manuál pro začátečníky</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --bg-alt: #1e293b;
+    --bg-card: #1a2438;
+    --fg: #e2e8f0;
+    --fg-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-strong: #0ea5e9;
+    --border: #334155;
+    --hi: #fbbf24;
+    --code-bg: #0b1220;
+    --code-fg: #fcd34d;
+  }
+
+  @media print {
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f8fafc;
+      --bg-card: #f1f5f9;
+      --fg: #0f172a;
+      --fg-muted: #475569;
+      --accent: #0369a1;
+      --accent-strong: #0284c7;
+      --border: #cbd5e1;
+      --hi: #b45309;
+      --code-bg: #f8fafc;
+      --code-fg: #be185d;
+    }
+    .toc, .top-link { display: none !important; }
+    body { padding-left: 0 !important; }
+    .layout { max-width: 100% !important; }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 1.5em; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.65;
+    padding-left: 280px;
+  }
+
+  .layout {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3em 2em 6em;
+  }
+
+  /* Sidebar TOC */
+  .toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-alt);
+    border-right: 1px solid var(--border);
+    padding: 2em 1.5em;
+    font-size: 0.9rem;
+  }
+
+  .toc-title {
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    margin-bottom: 1em;
+  }
+
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: toc;
+  }
+
+  .toc li {
+    counter-increment: toc;
+    margin-bottom: 0.3em;
+  }
+
+  .toc a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    display: block;
+    padding: 0.4em 0.6em;
+    border-radius: 6px;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .toc a::before {
+    content: counter(toc) ". ";
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    margin-right: 0.3em;
+  }
+
+  .toc a:hover {
+    background: rgba(56, 189, 248, 0.08);
+    color: var(--fg);
+    border-left-color: var(--accent);
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin: 0 0 0.3em;
+    line-height: 1.15;
+    background: linear-gradient(120deg, var(--accent) 0%, var(--hi) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    color: var(--fg-muted);
+    font-size: 1.1rem;
+    border-left: 3px solid var(--accent);
+    padding-left: 1em;
+    margin-bottom: 3em;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 2.5em 0 0.6em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--hi);
+    margin: 1.8em 0 0.5em;
+  }
+
+  h2 .num {
+    color: var(--fg-muted);
+    font-weight: 400;
+    margin-right: 0.3em;
+  }
+
+  p { margin: 0.8em 0; }
+
+  /* Lists */
+  ul, ol { padding-left: 1.4em; }
+  li { margin-bottom: 0.4em; }
+
+  /* Code */
+  code {
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1em 1.2em;
+    overflow-x: auto;
+    margin: 1em 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  pre code {
+    background: transparent;
+    color: var(--fg);
+    padding: 0;
+    border: none;
+    font-size: inherit;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    margin: 1em 0;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6em 0.9em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    background: var(--bg-alt);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  tr:hover td { background: rgba(56, 189, 248, 0.04); }
+
+  /* Special blocks */
+  blockquote {
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    background: var(--bg-card);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    color: var(--fg);
+    font-style: italic;
+  }
+
+  blockquote p { margin: 0; }
+
+  strong { color: var(--hi); font-weight: 600; }
+
+  em { color: var(--fg); }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent);
+  }
+
+  a:hover { color: var(--hi); border-bottom-style: solid; }
+
+  /* Callouts */
+  .callout {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1em 1.3em;
+    margin: 1.5em 0;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    margin-bottom: 0.5em;
+  }
+
+  .callout.tip { border-left-color: var(--hi); }
+  .callout.tip .callout-title { color: var(--hi); }
+
+  /* Summary footer */
+  .summary {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(251, 191, 36, 0.05));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8em 2em;
+    margin: 3em 0 0;
+  }
+
+  .summary h2 {
+    border: none;
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Back to top */
+  .top-link {
+    position: fixed;
+    bottom: 1.5em;
+    right: 1.5em;
+    background: var(--accent-strong);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    font-size: 1.3rem;
+    z-index: 50;
+  }
+
+  .top-link.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .top-link:hover { background: var(--accent); }
+
+  /* Mobile */
+  @media (max-width: 1000px) {
+    body { padding-left: 0; }
+    .toc {
+      position: relative;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .layout { padding: 2em 1.2em; }
+    h1 { font-size: 1.9rem; }
+    h2 { font-size: 1.4rem; }
+  }
+
+  .meta-tag {
+    display: inline-block;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: 0.2em 0.7em;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    margin-right: 0.4em;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3em 0;
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="Obsah">
+  <div class="toc-title">Obsah</div>
+  <ol>
+    <li><a href="#co-to-je">Co to vlastně je</a></li>
+    <li><a href="#instalace">Instalace a první spuštění</a></li>
+    <li><a href="#rezimy">Tři režimy práce</a></li>
+    <li><a href="#koncepty">Klíčové koncepty</a></li>
+    <li><a href="#pipeline">Jak to funguje dohromady</a></li>
+    <li><a href="#tipy">Praktické tipy pro hackathon</a></li>
+    <li><a href="#zkratky">Klávesové zkratky a příkazy</a></li>
+    <li><a href="#faq">Časté otázky</a></li>
+    <li><a href="#prinest">Co si přinést na hackathon</a></li>
+    <li><a href="#dal">Co číst dál</a></li>
+    <li><a href="#souhrn">Souhrn v jedné větě</a></li>
+  </ol>
+</nav>
+
+<main class="layout">
+
+<header>
+  <div>
+    <span class="meta-tag">Pro začátečníky</span>
+    <span class="meta-tag">~20 min čtení</span>
+    <span class="meta-tag">Hackathon BU Modern Apps</span>
+  </div>
+  <h1>Claude Code — manuál pro začátečníky</h1>
+  <p class="lede">
+    Pro team leadery BU Modern Apps před hackathonem. Cíl: za 20 minut čtení mít obrázek, co Claude Code je, čím se liší od Cursoru / Copilota a jak ho rozjet.
+  </p>
+</header>
+
+<section id="co-to-je">
+  <h2><span class="num">1.</span> Co to vlastně je</h2>
+  <p>
+    <strong>Claude Code je AI agent, kterého spustíš v terminálu uvnitř svého projektu.</strong> Liší se od chatu na claude.ai tím, že:
+  </p>
+  <ul>
+    <li><strong>Vidí a čte tvé soubory</strong> (s tvým svolením) — nemusíš mu vše copy-pastovat</li>
+    <li><strong>Píše a edituje soubory přímo</strong> — když řekneš "oprav ten bug", upraví kód</li>
+    <li><strong>Spouští příkazy</strong> (<code>npm install</code>, <code>git commit</code>, <code>pytest</code>) — s tvým souhlasem</li>
+    <li><strong>Pracuje autonomně</strong> delší dobu — postupně, krok za krokem, jako kolega</li>
+  </ul>
+  <p>A liší se od Cursoru / GitHub Copilota tím, že:</p>
+  <ul>
+    <li><strong>Funguje v terminálu</strong>, nikoli v IDE — i když existují pluginy do VS Code, JetBrains</li>
+    <li><strong>Je agentický</strong> — nedoplňuje řádek po řádku, dostává úkol a samostatně ho řeší</li>
+    <li><strong>Není závislý na konkrétním IDE</strong> — funguje stejně v jakémkoli editoru</li>
+  </ul>
+
+  <h3>Když to zjednodušíme</h3>
+  <p>Představ si <strong>juniorního vývojáře</strong>, který:</p>
+  <ul>
+    <li>Má přístup do tvého repa</li>
+    <li>Umí spustit cokoli v terminálu</li>
+    <li>Před každou destruktivní akcí se tě zeptá</li>
+    <li>Pamatuje si pravidla projektu (z <code>CLAUDE.md</code>)</li>
+    <li>Nikdy nespí</li>
+  </ul>
+  <p>Claude Code je přibližně tohle, jen rychlejší a levnější.</p>
+</section>
+
+<section id="instalace">
+  <h2><span class="num">2.</span> Instalace a první spuštění</h2>
+
+  <h3>Předpoklad</h3>
+  <ul>
+    <li>macOS, Linux nebo Windows (WSL)</li>
+    <li>Node.js 18+</li>
+    <li>Účet u Anthropic / Claude (firma má licence)</li>
+  </ul>
+
+  <h3>Instalace (1 příkaz)</h3>
+  <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
+
+  <h3>První spuštění</h3>
+  <pre><code>cd /cesta/k/projektu
+claude</code></pre>
+  <p>Při prvním spuštění tě provede přihlášením (otevře browser, autorizuješ účet, vrátí se).</p>
+
+  <h3>Co uvidíš</h3>
+  <p>Terminálové UI s promptem na konci. Pošleš mu otázku jako:</p>
+  <pre><code>&gt; co dělá tenhle projekt?</code></pre>
+  <p>Claude se podívá do <code>README</code>, prolétne strukturu a odpoví.</p>
+</section>
+
+<section id="rezimy">
+  <h2><span class="num">3.</span> Tři režimy práce</h2>
+
+  <h3>a) Konverzace (chat)</h3>
+  <p>Prostě píšeš a Claude odpovídá. Stejný jako chat na claude.ai, jen vidí tvoje soubory.</p>
+  <pre><code>&gt; kde se v tomhle repu řeší autentizace?</code></pre>
+
+  <h3>b) Edit / build</h3>
+  <p>Dáš úkol, Claude pracuje — čte, edituje, spouští příkazy.</p>
+  <pre><code>&gt; přidej do checkoutu validaci IČO podle ARES API</code></pre>
+  <p>Před každou edicí / příkazem se zeptá, <strong>co přesně udělá</strong>. Můžeš odsouhlasit (<code>y</code>), odmítnout (<code>n</code>), nebo dát další instrukce.</p>
+
+  <h3>c) Auto mode</h3>
+  <p>Když řekneš "udělej to" a důvěřuješ, můžeš pustit autonomní režim — Claude jede dál bez ptaní (kromě destruktivních akcí). Toggle: <code>/auto</code>.</p>
+
+  <div class="callout tip">
+    <div class="callout-title">Doporučení pro hackathon</div>
+    Použijte <strong>režim b)</strong> — vidíte, co se děje, a učíte se. Auto mode zapínejte, až když tušíte, kam to jde.
+  </div>
+</section>
+
+<section id="koncepty">
+  <h2><span class="num">4.</span> Klíčové koncepty (pro hackathon nezbytné)</h2>
+
+  <h3><code>CLAUDE.md</code> — paměť projektu</h3>
+  <p>Markdown soubor v rootu repa, kde popíšeš:</p>
+  <ul>
+    <li>Co projekt dělá</li>
+    <li>Konvence, styl</li>
+    <li>Co Claude má a nemá dělat</li>
+    <li>Speciální data, formáty, doménová pravidla</li>
+  </ul>
+  <p>Claude ho automaticky načte při startu. <strong>Je to nejdůležitější soubor v projektu, který stavíš.</strong></p>
+  <p>Příklad pro Tým A:</p>
+  <pre><code># Delivery Health Agent
+
+Tenhle agent čte data z `data/` a generuje markdown report
+do `out/health-report.md`.
+
+## Pravidla
+- Reporty jsou v češtině
+- Každé doporučení musí mít konkrétního ownera
+- Nehalucinuj data, která nejsou v souborech</code></pre>
+
+  <h3>Sub-agenti — specializovaní pomocníci</h3>
+  <p>V <code>.claude/agents/&lt;jméno&gt;.md</code> definuješ specializovaného agenta s úzkou rolí. Hlavní Claude pak může delegovat:</p>
+  <pre><code>.claude/agents/risk-analyzer.md  ← analyzuje 1 projekt</code></pre>
+  <p>Hlavní agent řekne <em>"analyzuj projekt MAVEN"</em> a <code>risk-analyzer</code> to zpracuje s vlastním kontextem (nezahltí tím hlavní konverzaci).</p>
+  <div class="callout">
+    <div class="callout-title">Proč to chcete použít</div>
+    Velký úkol rozdělíte na menší, paralelizovatelné. Pro Delivery Health Agent: 1 sub-agent per projekt, paralelně, hlavní agent jen agreguje.
+  </div>
+
+  <h3>Slash commandy — předpřipravené akce</h3>
+  <p>V <code>.claude/commands/&lt;jméno&gt;.md</code> definuješ "tlačítko", které jde vyvolat napsáním <code>/jméno</code>:</p>
+  <pre><code>.claude/commands/health-check.md  ← spustí celý pipeline</code></pre>
+  <p>Pak v Claude Code napíšeš <code>/health-check</code> a spustí se to.</p>
+  <p><strong>Pro hackathon:</strong> každý tým má jeden hlavní slash command, který agenta spouští. (Tým A: <code>/health-check</code>, Tým B: <code>/make-proposal</code>.)</p>
+
+  <h3>Hooks — automatické reakce</h3>
+  <p>V <code>.claude/settings.json</code> můžete nastavit shell příkazy, které se spustí při událostech:</p>
+  <pre><code>{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date) wrote $CLAUDE_TOOL_INPUT_file_path\" &gt;&gt; .claude/audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+  <p>Tenhle hook se spustí pokaždé, když Claude něco zapíše do souboru — a do audit logu zapíše čas a soubor.</p>
+  <p><strong>Pro hackathon nepovinné</strong>, ale skvělé pro audit / reprodukovatelnost.</p>
+
+  <h3>MCP servery — připojení externích nástrojů</h3>
+  <p>MCP (Model Context Protocol) umožní napojit Claude na externí systém — Jiru, Confluence, databázi, GitHub. <strong>Pro náš hackathon je nepoužíváme</strong> (vše lokálně), ale stojí za zmínku jako "to, co je další úroveň".</p>
+</section>
+
+<section id="pipeline">
+  <h2><span class="num">5.</span> Jak to celé funguje dohromady (Tým A příklad)</h2>
+  <pre><code>1. Otevřu Claude Code v složce team-a-delivery-health/
+2. Claude načte CLAUDE.md — ví o čem projekt je
+3. Napíšu: /health-check
+4. Slash command (z .claude/commands/health-check.md) říká:
+   "pro každý projekt zavolej sub-agenta risk-analyzer"
+5. Hlavní Claude paralelně spustí 3 sub-agenty (1 per projekt)
+6. Každý sub-agent přečte tickety, PR, kalendář, notes pro svůj projekt
+7. Vrátí markdown sekci s riziky + blokery + doporučeními
+8. Hlavní Claude agreguje a zapíše out/health-report.md
+9. Hook zapíše čas zápisu do audit logu
+10. Mně vrátí cestu k reportu, otevřu, čtu</code></pre>
+  <p>Celý pipeline trvá ~1 minutu. Bez agenta bych to dělal ~90 minut.</p>
+</section>
+
+<section id="tipy">
+  <h2><span class="num">6.</span> Praktické tipy pro hackathon</h2>
+
+  <h3>Začátek dne</h3>
+  <ol>
+    <li><strong>Otevři terminál ve své team složce:</strong>
+      <pre><code>cd hackathon/team-a-delivery-health   # nebo team-b
+claude</code></pre>
+    </li>
+    <li><strong>Nech Claude přečíst README:</strong> napiš <em>"přečti README a CLAUDE.md a shrň, co máme stavět"</em>. Ujistíš se, že kontext sedí.</li>
+    <li><strong>Vyzkoušej slash command:</strong> <code>/health-check</code> (Tým A) nebo <code>/make-proposal</code> (Tým B). Uvidíš current stub a víš, kde začít rozšiřovat.</li>
+  </ol>
+
+  <h3>Při práci</h3>
+  <ul>
+    <li><strong>Krátké iterace.</strong> Než dlouhé "udělej všechno" promptu, dej úkol → ověř → další úkol.</li>
+    <li><strong>Když se Claude ztratí, řekni mu to.</strong> <em>"Zastav. Dělej jen tohle: …"</em> — funguje líp než nechat ho zmateně pokračovat.</li>
+    <li><strong>Když chceš změnit směr, použij Esc.</strong> Přeruší aktuální práci, můžeš dát novou instrukci.</li>
+    <li><strong><code>/clear</code> vyčistí konverzaci</strong>, ale <code>CLAUDE.md</code> zůstává — užitečné, když chceš začít čistě.</li>
+  </ul>
+
+  <h3>Pro debugging</h3>
+  <ul>
+    <li><strong>Požádej Claude o vysvětlení.</strong> <em>"Vysvětli mi, proč jsi zvolil tenhle přístup."</em></li>
+    <li><strong>Zkontroluj <code>.claude/audit.log</code></strong> (pokud máš hook) — vidíš, co Claude zapsal.</li>
+    <li><strong>Použij <code>git diff</code></strong> mezi iteracemi — vidíš, co se reálně změnilo.</li>
+  </ul>
+
+  <h3>Kdy je čas vstoupit</h3>
+  <ul>
+    <li>Když Claude opakovaně dělá tu samou chybu — <strong>přidej pravidlo do <code>CLAUDE.md</code></strong>, nebudeš to opakovat.</li>
+    <li>Když výstup není "actionable" — <strong>uprav prompt sub-agenta</strong> s konkrétnějším formátem.</li>
+    <li>Když je odpověď příliš generická — <strong>dej konkrétní příklad</strong>, jak má výstup vypadat.</li>
+  </ul>
+</section>
+
+<section id="zkratky">
+  <h2><span class="num">7.</span> Klávesové zkratky a příkazy</h2>
+  <table>
+    <thead>
+      <tr><th>Co chceš</th><th>Jak</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Spustit Claude Code</td><td><code>claude</code> v terminálu</td></tr>
+      <tr><td>Pomoct</td><td><code>/help</code></td></tr>
+      <tr><td>Vyčistit konverzaci</td><td><code>/clear</code></td></tr>
+      <tr><td>Přerušit aktuální akci</td><td><code>Esc</code></td></tr>
+      <tr><td>Spustit slash command</td><td><code>/&lt;jméno&gt;</code></td></tr>
+      <tr><td>Vyjít</td><td><code>Ctrl+D</code> nebo <code>/exit</code></td></tr>
+      <tr><td>Přepnout auto mode</td><td><code>/auto</code></td></tr>
+      <tr><td>Změnit model</td><td><code>/model</code></td></tr>
+      <tr><td>Skill / dovednost</td><td><code>/&lt;skill-name&gt;</code> (např. <code>/init</code>)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="faq">
+  <h2><span class="num">8.</span> Časté otázky</h2>
+
+  <h3>Pokazí mi Claude kód?</h3>
+  <p>Před každou editací se ptá. V git repu to navíc jde vrátit pomocí <code>git restore</code>. Před hackathonem doporučuji <code>git init</code> na začátku, ať máš historii.</p>
+
+  <h3>Posílá moje data Anthropicu?</h3>
+  <p>Ano, prompty (a kontext, který si Claude přečte) jdou do Anthropic API. Pro hackathon používáme jen dummy data, takže nic citlivého neuniká.</p>
+
+  <h3>Funguje to offline?</h3>
+  <p>Ne — potřebuje internet kvůli volání modelu. Modely běží v cloudu.</p>
+
+  <h3>Kolik to stojí?</h3>
+  <p>Firma má licence, pro hackathon se o náklady nestaráš. (Mimochodem typický agent run stojí jednotky korun.)</p>
+
+  <h3>Co když nemám zkušenost s terminálem?</h3>
+  <p>Není problém. Claude ti pomůže i s tím <em>"jak v tomhle terminálu udělám X"</em> — zeptej se.</p>
+
+  <h3>Naučí se Claude něco z mojí konverzace?</h3>
+  <p>Ne v rámci sezení mimo aktuální kontext. Pokud chceš, aby si něco zapamatoval napříč sezeními, <strong>zapiš to do <code>CLAUDE.md</code></strong>. To je jeho "dlouhodobá paměť pro projekt".</p>
+</section>
+
+<section id="prinest">
+  <h2><span class="num">9.</span> Co si přinést na hackathon</h2>
+  <ul>
+    <li>Notebook s Node.js 18+</li>
+    <li>Claude Code nainstalovaný (<code>npm install -g @anthropic-ai/claude-code</code>)</li>
+    <li>Ověřit přihlášení (<code>claude</code> se zeptá při prvním spuštění)</li>
+    <li>Klidně 30 min předem otevřít starter repo a říct <em>"co tady je?"</em> — Claude tě seznámí</li>
+  </ul>
+  <div class="callout tip">
+    <div class="callout-title">Když to nestihneš ráno</div>
+    Coach na hackathonu pomůže rozjet — neztrácej kvůli tomu nervy.
+  </div>
+</section>
+
+<section id="dal">
+  <h2><span class="num">10.</span> Co číst dál (po hackathonu)</h2>
+  <p>Pokud tě to chytne:</p>
+  <ul>
+    <li>Dokumentace: <a href="https://docs.claude.com/claude-code" target="_blank" rel="noopener">docs.claude.com/claude-code</a></li>
+    <li>Anthropic blog — případové studie agentů</li>
+    <li>Cookbook na GitHubu — příklady agentů pro různé use-case</li>
+  </ul>
+</section>
+
+<section id="souhrn" class="summary">
+  <h2>Souhrn — Claude Code v jedné větě</h2>
+  <blockquote>
+    Claude Code je AI agent v terminálu, který čte a edituje tvé soubory, spouští příkazy s tvým svolením, řídí se pravidly z <code>CLAUDE.md</code> a může delegovat na sub-agenty přes slash commandy a hooks.
+  </blockquote>
+  <p>Pro hackathon ti stačí: <code>claude</code>, <code>CLAUDE.md</code>, slash command, sub-agent. <strong>Zbytek je bonus.</strong></p>
+</section>
+
+</main>
+
+<a href="#" class="top-link" id="topLink" aria-label="Zpět nahoru">↑</a>
+
+<script>
+  // Back-to-top button visibility
+  const topLink = document.getElementById('topLink');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) topLink.classList.add('visible');
+    else topLink.classList.remove('visible');
+  });
+
+  // Highlight current section in TOC
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.style.background = 'rgba(56, 189, 248, 0.12)';
+            link.style.color = 'var(--fg)';
+            link.style.borderLeftColor = 'var(--accent)';
+          } else {
+            link.style.background = '';
+            link.style.color = '';
+            link.style.borderLeftColor = '';
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

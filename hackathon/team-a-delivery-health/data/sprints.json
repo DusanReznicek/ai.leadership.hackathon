@@ -1,0 +1,74 @@
+[
+  {
+    "project": "MAVEN",
+    "project_name": "Maven E-commerce — release 2.4",
+    "active_sprint": {
+      "id": "MAVEN-S22",
+      "name": "MAVEN Sprint 22",
+      "start": "2026-05-13",
+      "end": "2026-05-28",
+      "target_points": 30,
+      "committed_points": 30,
+      "added_after_start_points": 5,
+      "completed_points": 8,
+      "team": ["Petr Novák", "Jana Svobodová", "Pavel Krejčí"],
+      "release_target": "2026-05-29",
+      "notes": "Release-blocking; payment & shipping integration still open."
+    },
+    "previous_sprint": {
+      "id": "MAVEN-S21",
+      "target_points": 25,
+      "completed_points": 25,
+      "start": "2026-04-29",
+      "end": "2026-05-12"
+    }
+  },
+  {
+    "project": "ATLAS",
+    "project_name": "Atlas Internal Portal",
+    "active_sprint": {
+      "id": "ATLAS-S15",
+      "name": "ATLAS Sprint 15",
+      "start": "2026-05-13",
+      "end": "2026-05-28",
+      "target_points": 30,
+      "committed_points": 30,
+      "added_after_start_points": 0,
+      "completed_points": 22,
+      "team": ["Marek Dvořák", "Tomáš Procházka"],
+      "release_target": null,
+      "notes": "Continuous delivery; no fixed release."
+    },
+    "previous_sprint": {
+      "id": "ATLAS-S14",
+      "target_points": 28,
+      "completed_points": 28,
+      "start": "2026-04-29",
+      "end": "2026-05-12"
+    }
+  },
+  {
+    "project": "NOVA",
+    "project_name": "Nova Mobile App — release 1.2",
+    "active_sprint": {
+      "id": "NOVA-S08",
+      "name": "NOVA Sprint 8",
+      "start": "2026-05-13",
+      "end": "2026-05-28",
+      "target_points": 28,
+      "committed_points": 28,
+      "added_after_start_points": 14,
+      "completed_points": 13,
+      "team": ["Adam Veselý", "Eva Horáková"],
+      "release_target": "2026-05-29",
+      "notes": "Scope creep — 14 points added mid-sprint by client (security audit + extras)."
+    },
+    "previous_sprint": {
+      "id": "NOVA-S07",
+      "target_points": 26,
+      "completed_points": 24,
+      "start": "2026-04-29",
+      "end": "2026-05-12"
+    }
+  }
+]

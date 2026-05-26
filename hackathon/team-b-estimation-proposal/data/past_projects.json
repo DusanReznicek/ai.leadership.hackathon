@@ -1,0 +1,112 @@
+[
+  {
+    "id": "PROJ-2024-01",
+    "name": "Modela Fashion — headless e-shop",
+    "domain": "e-commerce",
+    "stack": ["Next.js", "NestJS", "PostgreSQL", "Saleor", "GoPay", "Zásilkovna"],
+    "scope_summary": "Vlastní front-end nad Saleor headless, custom checkout, integrace plateb a dopravy, CMS pro marketingové stránky.",
+    "duration_weeks": 18,
+    "planned_md": {"FE": 90, "BE": 120, "DevOps": 20, "QA": 30, "UX": 25, "PM": 30, "total": 315},
+    "actual_md":  {"FE": 105, "BE": 145, "DevOps": 22, "QA": 38, "UX": 25, "PM": 35, "total": 370},
+    "outcome": "Úspěch, klient navázal druhou fází (loyalty)."
+  },
+  {
+    "id": "PROJ-2024-02",
+    "name": "GoldenStep Shoes — replatform na headless",
+    "domain": "e-commerce",
+    "stack": ["Next.js", ".NET 8", "MS SQL", "ComGate", "PPL"],
+    "scope_summary": "Migrace ze Shoptetu na vlastní front-end s integrací do stávajícího ERP. ~50k SKU.",
+    "duration_weeks": 24,
+    "planned_md": {"FE": 110, "BE": 160, "DevOps": 25, "QA": 45, "UX": 30, "PM": 40, "total": 410},
+    "actual_md":  {"FE": 130, "BE": 220, "DevOps": 30, "QA": 55, "UX": 30, "PM": 50, "total": 515},
+    "outcome": "Doručeno, ale o 6 týdnů později (ERP integrace složitější)."
+  },
+  {
+    "id": "PROJ-2023-05",
+    "name": "InfoTech — interní zaměstnanecký portál",
+    "domain": "internal-portal",
+    "stack": ["React", "NestJS", "PostgreSQL", "Microsoft Entra"],
+    "scope_summary": "Portál pro 1200 zaměstnanců: profily, dovolené, schvalování, audit log, integrace s HR systémem.",
+    "duration_weeks": 14,
+    "planned_md": {"FE": 60, "BE": 80, "DevOps": 15, "QA": 25, "UX": 15, "PM": 20, "total": 215},
+    "actual_md":  {"FE": 68, "BE": 88, "DevOps": 14, "QA": 28, "UX": 15, "PM": 22, "total": 235},
+    "outcome": "Úspěch, projekt často citován jako reference."
+  },
+  {
+    "id": "PROJ-2024-06",
+    "name": "PrimeMetal — výrobní portál + dashboardy",
+    "domain": "internal-portal",
+    "stack": ["Next.js", ".NET 8", "MS SQL", "Power BI", "SAP integrace"],
+    "scope_summary": "Portál pro mistry a operátory + embedded Power BI dashboardy nad SAP daty.",
+    "duration_weeks": 22,
+    "planned_md": {"FE": 75, "BE": 130, "DevOps": 25, "QA": 35, "UX": 20, "PM": 30, "total": 315},
+    "actual_md":  {"FE": 90, "BE": 175, "DevOps": 28, "QA": 45, "UX": 22, "PM": 38, "total": 398},
+    "outcome": "Doručeno; SAP integrace byla hlavní zdroj skluzu."
+  },
+  {
+    "id": "PROJ-2024-09",
+    "name": "Acme Retail — věrnostní mobilní aplikace",
+    "domain": "mobile",
+    "stack": ["React Native", "NestJS", "PostgreSQL", "Firebase", "Stripe"],
+    "scope_summary": "RN aplikace iOS + Android: účet, body, kupóny, QR scan v prodejně, push.",
+    "duration_weeks": 20,
+    "planned_md": {"FE": 0, "BE": 70, "Mobile": 110, "DevOps": 20, "QA": 40, "UX": 25, "PM": 30, "total": 295},
+    "actual_md":  {"FE": 0, "BE": 78, "Mobile": 130, "DevOps": 22, "QA": 50, "UX": 28, "PM": 35, "total": 343},
+    "outcome": "Úspěch; klient žádá v 2025 rozšíření na BLE beacons."
+  },
+  {
+    "id": "PROJ-2023-11",
+    "name": "DriveNow — flotila a servisní mobilní aplikace",
+    "domain": "mobile",
+    "stack": ["React Native", ".NET 8", "MS SQL", "OneSignal", "Mapy.cz API"],
+    "scope_summary": "RN app pro servisní techniky: zakázky, mapy, foto evidence, offline mód.",
+    "duration_weeks": 16,
+    "planned_md": {"BE": 55, "Mobile": 95, "DevOps": 18, "QA": 32, "UX": 18, "PM": 22, "total": 240},
+    "actual_md":  {"BE": 60, "Mobile": 105, "DevOps": 18, "QA": 38, "UX": 18, "PM": 25, "total": 264},
+    "outcome": "Úspěch."
+  },
+  {
+    "id": "PROJ-2024-04",
+    "name": "Logoval — ERP↔WMS integrační vrstva",
+    "domain": "integration",
+    "stack": ["NestJS", "RabbitMQ", "PostgreSQL", "Azure Service Bus", "Helios", "vlastní WMS"],
+    "scope_summary": "Integrační vrstva mezi Heliosem a vlastním WMS skladu klienta: zakázky, stavy, deltas.",
+    "duration_weeks": 12,
+    "planned_md": {"BE": 80, "DevOps": 20, "QA": 25, "PM": 18, "total": 143},
+    "actual_md":  {"BE": 95, "DevOps": 22, "QA": 30, "PM": 22, "total": 169},
+    "outcome": "Úspěch; klient hovoří o rozšíření na e-shop integraci."
+  },
+  {
+    "id": "PROJ-2025-02",
+    "name": "MediCare — propojení pojišťovacího portálu s ZP",
+    "domain": "integration",
+    "stack": ["NestJS", "Azure Service Bus", "SOAP klienti", ".NET 8"],
+    "scope_summary": "Integrace klientského portálu zdravotní pojišťovny s vnitřními systémy: údaje, žádosti, dokumenty. SOAP rozhraní bylo legacy.",
+    "duration_weeks": 16,
+    "planned_md": {"BE": 95, "DevOps": 25, "QA": 35, "PM": 25, "total": 180},
+    "actual_md":  {"BE": 130, "DevOps": 28, "QA": 42, "PM": 32, "total": 232},
+    "outcome": "Doručeno se skluzem 4 týdny — legacy SOAP a koordinace s dodavatelem ZP zpomalila více než plánováno."
+  },
+  {
+    "id": "PROJ-2024-12",
+    "name": "FinReport — finanční dashboard pro management",
+    "domain": "bi",
+    "stack": ["Power BI", "Azure Data Factory", "Azure Synapse", "PostgreSQL source"],
+    "scope_summary": "BI dashboard pro CFO suite, ETL z 4 zdrojů, sjednocený data model, role-based access.",
+    "duration_weeks": 10,
+    "planned_md": {"BE": 35, "DevOps": 15, "BI": 60, "QA": 18, "PM": 15, "total": 143},
+    "actual_md":  {"BE": 38, "DevOps": 15, "BI": 70, "QA": 20, "PM": 18, "total": 161},
+    "outcome": "Úspěch; klient rozšiřuje na regionální entity."
+  },
+  {
+    "id": "PROJ-2025-04",
+    "name": "Helios reporting — Metabase nasazení",
+    "domain": "bi",
+    "stack": ["Metabase", "PostgreSQL", "Azure VM"],
+    "scope_summary": "Self-hosted Metabase nad replikou Helios DB, 12 produkčních dashboardů, údržbové runbooky.",
+    "duration_weeks": 6,
+    "planned_md": {"BE": 15, "DevOps": 12, "BI": 35, "QA": 8, "PM": 10, "total": 80},
+    "actual_md":  {"BE": 16, "DevOps": 14, "BI": 38, "QA": 8, "PM": 10, "total": 86},
+    "outcome": "Úspěch, rozsahem malé, dobrá reference pro 'rychlé BI'."
+  }
+]

@@ -1,0 +1,5 @@
+.DS_Store
+.claude/audit.log
+out/
+node_modules/
+*.log

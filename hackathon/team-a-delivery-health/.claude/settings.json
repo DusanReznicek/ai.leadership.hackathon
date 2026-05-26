@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Write(out/**)",
+      "Bash(mkdir -p out)",
+      "Bash(ls *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date -u +%FT%TZ) wrote $CLAUDE_TOOL_INPUT_file_path\" >> .claude/audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}
